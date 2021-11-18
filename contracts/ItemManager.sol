@@ -34,26 +34,27 @@ contract ItemManager is Ownable{
     }
     
     
-    function triggerPayment(uint Itemindex) public payable{
+    function triggerPayment(uint _Itemindex) public payable{
         
         
         
-        require(items[Itemindex]._itemprice==msg.value,"Only full payments accepted");
-        require(items[Itemindex].state==SupplyChainState.Created,"Item is further in the chain");
+        require(items[_Itemindex]._itemprice==msg.value,"Only full payments accepted");
+        require(items[_Itemindex].state==SupplyChainState.Created,"Item is further in the chain");
         
-        items[Itemindex].state=SupplyChainState.Paid;
+        items[_Itemindex].state=SupplyChainState.Paid;
         
-        emit SupplyChainStep(Itemindex,uint(items[Itemindex].state),address(items[Itemindex]._item));
+        emit SupplyChainStep(_Itemindex,uint(items[_Itemindex].state),address(items[_Itemindex]._item));
         
     }
     
-    function triggerDelivery(uint Itemindex) public onlyOwner{
+    function triggerDelivery(uint _Itemindex) public onlyOwner{
          
-        require(items[Itemindex].state==SupplyChainState.Paid,"Item is further in the chain");
-        items[Itemindex].state=SupplyChainState.Delivered;
+        require(items[_Itemindex].state==SupplyChainState.Paid,"Item is further in the chain");
+        items[_Itemindex].state=SupplyChainState.Delivered;
+        //eventemit
         
         
-        emit SupplyChainStep(Itemindex,uint(items[Itemindex].state),address(items[Itemindex]._item));
+        emit SupplyChainStep(_Itemindex,uint(items[_Itemindex].state),address(items[_Itemindex]._item));
         
         
         
